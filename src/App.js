@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import useFetch from "./functions/useFetch";
 
 function App() {
+  const { data, loading, error } = useFetch(
+    "https://localhost:7064/WeatherForecast"
+  );
+  if (error) {
+    console.log(error);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {loading && <div>Loading...{error}</div>}
+      {data && (
+        <div>
+          {data.map((item) => (
+            <div>
+              <h2>Date... {item.date}</h2>
+              <p>Farenheit... {item.temperatureF}</p>
+              <p>Celcius... {item.temperatureC}</p>
+              <h4>Wishy washy summary ... {item.summary}</h4>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
