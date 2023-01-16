@@ -19,7 +19,7 @@ export default function useFetch(url) {
       }
     })();
   }, [url]); //The only dependency we're going to put in the useEffect dependency array is Url because if the Url changes, we have to request new data.
-
+  console.log(data);
   return { data, error, loading };
 }
 
