@@ -1,4 +1,7 @@
 import useFetch from "./functions/useFetch";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Flex from "@react-css/flex";
 
 function App() {
   const { data, loading, error } = useFetch(
@@ -18,21 +21,23 @@ function App() {
   // }
 
   return (
-    <div className='body'>
+    <Container fluid>
       {loading && <div>Loading...{error}</div>}
       {data && (
-        <div className='bodytext-wrapper'>
+        <Flex flexDirection='row' justifyContent='center'>
           {data.map((item) => (
-            <div>
-              <h2 className='bodytext-Title'> {item.title}</h2>
-              <p>Release Date... {item.releaseDate}</p>
-              <p>Overview... {item.overview}</p>
-              <h4>Genre ... {item.genre}</h4>
-            </div>
+            <Card style={{ width: "28rem", padding:"10px"}}>
+              <Card.Body>
+                <h2 className='bodytext-Title'> {item.title}</h2>
+                <p>Release Date... {item.releaseDate}</p>
+                <p>Overview... {item.overview}</p>
+                <h4>Genre ... {item.genre}</h4>
+              </Card.Body>
+            </Card>
           ))}
-        </div>
+        </Flex>
       )}
-    </div>
+    </Container>
   );
 }
 
