@@ -1,44 +1,65 @@
 import useFetch from "./functions/useFetch";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import Flex from "@react-css/flex";
-//pass in the URL to the useFetch function if successful the data holds the data from the API
-function App() {
-  const { data, loading, error } = useFetch(
-    "https://localhost:7285/api/Movies"
-  );
-  if (error) {
-    console.log(error);
-  }
 
-  //data that we are getting back from the API
-  // {
-  //   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  //   "title": "string",
-  //   "releaseDate": "2023-01-16T00:00:00",
-  //   "overview": "string",
-  //   "genre": "string",
-  //   "price": 0
-  // }
+const mockMovies = [
+  {
+    id: "1",
+    title: "The Matrix",
+    releaseDate: "1999-03-31",
+    overview: "A computer programmer discovers reality isn't what it seems.",
+    genre: "Science Fiction",
+    price: 12.99,
+  },
+  {
+    id: "2",
+    title: "Inception",
+    releaseDate: "2010-07-16",
+    overview: "A thief who steals corporate secrets through dream-sharing technology.",
+    genre: "Science Fiction",
+    price: 14.99,
+  },
+  {
+    id: "3",
+    title: "The Dark Knight",
+    releaseDate: "2008-07-18",
+    overview: "Batman faces the Joker in this epic superhero film.",
+    genre: "Action",
+    price: 13.99,
+  },
+];
+
+function App() {
+  const { data, loading, error } = useFetch("https://localhost:7246/api/Movies");
+  const movies = error ? mockMovies : data;
 
   return (
     <Container fluid>
-      {loading && <div>Loading...{error}</div>}
-      {data && (
-        <Flex flexDirection='row' justifyContent='center'>
-          {data.map((item) => (
-            <Card style={{ width: "28rem", padding: "10px" }}>
-              <Card.Body>
-                <h2 className='bodytext-Title'> {item.title}</h2>
-                <p>Release Date... {item.releaseDate}</p>
-                <p>Overview... {item.overview}</p>
-                <h4>Genre ... {item.genre}</h4>
-              </Card.Body>
-            </Card>
-          ))}
-        </Flex>
-      )}
+      {loading && <div>Loading...</div>}
+      <div style={{ color: error ? "red" : "green", margin: "10px" }}>
+        {error ? "Using mock data (API unavailable)" : "API Data"}
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
+        {movies?.map((movie) => (
+          <Card key={movie.id} style={{ width: "300px", padding: "10px" }}>
+            <Card.Body>
+              <h3>{movie.title}</h3>
+              <p>
+                <strong>Released:</strong> {movie.releaseDate}
+              </p>
+              <p>{movie.overview}</p>
+              <p>
+                <strong>Genre:</strong> {movie.genre}
+              </p>
+              <p>
+                <strong>Price:</strong> ${movie.price}
+              </p>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
     </Container>
   );
 }
+
 export default App;
